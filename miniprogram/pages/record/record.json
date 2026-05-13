@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "记录饮食",
+  "usingComponents": {
+    "meal-picker": "/components/meal-picker/meal-picker"
+  }
+}

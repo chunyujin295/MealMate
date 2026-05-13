@@ -1,0 +1,95 @@
+<view class="container">
+  <!-- 日期切换 -->
+  <view class="date-bar card flex-between">
+    <view class="date-nav" bindtap="goPrevDay">
+      <text class="arrow">‹</text>
+    </view>
+    <view class="date-display flex-column flex-center" bindtap="goToday">
+      <text class="date-text">{{displayDate}}</text>
+      <text class="weekday-text">{{weekday}}</text>
+      <text wx:if="{{isToday}}" class="today-badge">今天</text>
+    </view>
+    <view class="date-nav" bindtap="goNextDay">
+      <text class="arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 当日营养摘要 -->
+  <view class="nutrition-bar card" wx:if="{{todaySummary.totalCalories > 0}}">
+    <view class="calories-main flex-center">
+      <text class="calories-num">{{todaySummary.totalCalories}}</text>
+      <text class="calories-unit"> kcal</text>
+    </view>
+    <view class="macro-row flex-between">
+      <view class="macro-item">
+        <text class="macro-label">碳水</text>
+        <text class="macro-value">{{todaySummary.totalCarbs}}g</text>
+      </view>
+      <view class="macro-item">
+        <text class="macro-label">蛋白质</text>
+        <text class="macro-value">{{todaySummary.totalProtein}}g</text>
+      </view>
+      <view class="macro-item">
+        <text class="macro-label">脂肪</text>
+        <text class="macro-value">{{todaySummary.totalFat}}g</text>
+      </view>
+    </view>
+    <view class="nutrition-detail-link" bindtap="goToNutrition">
+      <text>查看详细统计 ›</text>
+    </view>
+  </view>
+
+  <!-- 按餐次展示记录 -->
+  <view wx:for="{{mealTypes}}" wx:key="key" class="meal-section">
+    <view class="meal-header flex-between">
+      <view class="meal-title flex-row">
+        <text class="meal-icon">{{item.icon}}</text>
+        <text class="meal-label">{{item.label}}</text>
+        <text class="meal-count">({{mealRecords[item.key].length}})</text>
+      </view>
+      <view class="add-btn" bindtap="addRecord" data-meal="{{item.key}}">
+        <text>+ 添加</text>
+      </view>
+    </view>
+
+    <view wx:if="{{mealRecords[item.key].length === 0}}" class="empty-meal">
+      <text>暂无{{item.label}}记录</text>
+    </view>
+
+    <view wx:else>
+      <view wx:for="{{mealRecords[item.key]}}" wx:key="_id" wx:for-item="record"
+            class="record-item card" bindtap="goToDetail" data-id="{{record._id}}">
+        <view class="record-content flex-row">
+          <view wx:if="{{record.images && record.images.length > 0}}" class="record-thumb">
+            <image src="{{record.images[0]}}" mode="aspectFill" lazy-load />
+          </view>
+          <view class="record-info flex-1">
+            <text class="record-text" wx:if="{{record.content}}">{{record.content}}</text>
+            <text class="record-text text-hint" wx:else>（无备注）</text>
+            <view class="record-tags" wx:if="{{record.aiResult}}">
+              <text class="tag tag-green">AI: {{record.aiResult.foodName}}</text>
+            </view>
+            <text class="record-time text-hint">{{record.timeText}}</text>
+          </view>
+          <view class="record-arrow">
+            <text>›</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{totalRecords === 0}}" class="empty-state">
+    <text class="empty-icon">🍽️</text>
+    <text class="empty-text">今天还没记录饮食哦</text>
+    <view class="add-first-btn btn-primary mt-30" bindtap="addRecord" data-meal="breakfast">
+      <text>开始记录</text>
+    </view>
+  </view>
+
+  <!-- FAB 快速添加 -->
+  <view class="fab" bindtap="addRecord" data-meal="">
+    <text>+</text>
+  </view>
+</view>

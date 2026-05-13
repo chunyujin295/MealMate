@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+miniprogram_npm/
+
+# Private config (personal IDE settings, local env)
+project.private.config.json
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build output
+dist/
+
+# Cloud function - runtime artifacts (but keep config.json & package files)
+# node_modules already covered above

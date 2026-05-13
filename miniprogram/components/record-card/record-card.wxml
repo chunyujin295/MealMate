@@ -1,0 +1,30 @@
+<view class="record-card card" bindtap="onTap">
+  <view class="card-header flex-between mb-10">
+    <view class="flex-row">
+      <text class="meal-icon">{{mealIcon}}</text>
+      <text class="text-bold">{{mealLabel}}</text>
+    </view>
+    <text class="text-sm text-hint">{{record.date}}</text>
+  </view>
+
+  <view wx:if="{{record.images && record.images.length > 0}}" class="card-images flex-row mb-10">
+    <image wx:for="{{record.images}}" wx:for-item="img" wx:key="index"
+           src="{{img}}" mode="aspectFill" class="card-image"
+           wx:if="{{index < 3}}" />
+    <view wx:if="{{record.images.length > 3}}" class="more-images flex-center">
+      <text>+{{record.images.length - 3}}</text>
+    </view>
+  </view>
+
+  <view class="card-content">
+    <text class="content-text">{{record.content || '（无备注）'}}</text>
+  </view>
+
+  <view class="card-footer flex-between mt-10">
+    <view wx:if="{{record.nutrition && record.nutrition.calories}}" class="flex-row">
+      <text class="text-sm text-primary">🔥 {{record.nutrition.calories}}kcal</text>
+    </view>
+    <view wx:else></view>
+    <text class="text-sm text-hint">{{record.timeText}}</text>
+  </view>
+</view>

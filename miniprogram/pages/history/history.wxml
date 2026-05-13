@@ -1,0 +1,117 @@
+<view class="container">
+  <!-- 视图切换 -->
+  <view class="view-toggle card flex-row">
+    <view class="toggle-item {{viewMode === 'calendar' ? 'active' : ''}}" bindtap="switchView" data-mode="calendar">
+      <text>📅 日历视图</text>
+    </view>
+    <view class="toggle-item {{viewMode === 'list' ? 'active' : ''}}" bindtap="switchView" data-mode="list">
+      <text>📋 列表视图</text>
+    </view>
+  </view>
+
+  <!-- 日历视图 -->
+  <view wx:if="{{viewMode === 'calendar'}}">
+    <!-- 月份切换 -->
+    <view class="calendar-header flex-between">
+      <view bindtap="prevMonth"><text class="nav-arrow">‹</text></view>
+      <text class="month-text">{{currentYear}}年{{currentMonth + 1}}月</text>
+      <view bindtap="nextMonth"><text class="nav-arrow">›</text></view>
+    </view>
+
+    <!-- 星期头 -->
+    <view class="weekday-header flex-row">
+      <text wx:for="{{weekDays}}" wx:key="*this" class="weekday-cell">{{item}}</text>
+    </view>
+
+    <!-- 日期网格 -->
+    <view class="calendar-grid">
+      <view wx:for="{{calendarDays}}" wx:key="index"
+            class="day-cell {{item.isEmpty ? 'empty' : ''}} {{item.isToday ? 'today' : ''}} {{item.hasRecord ? 'has-record' : ''}}"
+            bindtap="selectDay" data-date="{{item.date}}">
+        <text wx:if="{{!item.isEmpty}}" class="day-num">{{item.day}}</text>
+        <view wx:if="{{!item.isEmpty && item.hasRecord}}" class="day-dot"></view>
+      </view>
+    </view>
+
+    <!-- 选中日期的记录 -->
+    <view wx:if="{{selectedDate}}" class="selected-date-section">
+      <view class="flex-between mb-20">
+        <text class="text-lg text-bold">{{selectedDate}} 的记录</text>
+        <text class="text-hint text-sm">{{selectedRecords.length}}条</text>
+      </view>
+
+      <view wx:if="{{selectedRecords.length === 0}}" class="empty-state">
+        <text class="text-hint">当天无记录</text>
+      </view>
+
+      <view wx:for="{{selectedRecords}}" wx:key="_id" class="record-item card"
+            bindtap="goToDetail" data-id="{{item._id}}">
+        <view class="flex-row">
+          <text class="meal-icon">{{item.mealIcon}}</text>
+          <view class="flex-1">
+            <text>{{item.content || '（无备注）'}}</text>
+            <view wx:if="{{item.nutrition && item.nutrition.calories}}" class="text-sm text-hint mt-10">
+              热量: {{item.nutrition.calories}}kcal
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 列表视图 -->
+  <view wx:if="{{viewMode === 'list'}}">
+    <!-- 筛选栏 -->
+    <view class="filter-bar flex-row mb-20">
+      <picker mode="date" value="{{filterDate}}" bindchange="onFilterDateChange">
+        <view class="filter-tag">
+          <text>{{filterDate || '选择日期'}}</text>
+          <text class="ml-10 text-hint">▼</text>
+        </view>
+      </picker>
+      <picker range="{{mealFilterOptions}}" value="{{mealFilterIndex}}" bindchange="onMealFilterChange">
+        <view class="filter-tag">
+          <text>{{mealFilterOptions[mealFilterIndex]}}</text>
+          <text class="ml-10 text-hint">▼</text>
+        </view>
+      </picker>
+      <view class="filter-tag" bindtap="clearFilters" wx:if="{{filterDate || mealFilterIndex > 0}}">
+        <text>清除筛选</text>
+      </view>
+    </view>
+
+    <view wx:if="{{listRecords.length === 0}}" class="empty-state">
+      <text class="empty-icon">📭</text>
+      <text>暂无记录</text>
+    </view>
+
+    <view wx:for="{{listRecords}}" wx:key="_id" class="record-item card"
+          bindtap="goToDetail" data-id="{{item._id}}">
+      <view>
+        <view class="flex-between mb-10">
+          <view class="flex-row">
+            <text class="meal-icon-sm">{{item.mealIcon}}</text>
+            <text class="text-bold">{{item.mealTypeLabel}}</text>
+          </view>
+          <text class="text-sm text-hint">{{item.date}}</text>
+        </view>
+        <text>{{item.content || '（无备注）'}}</text>
+        <view wx:if="{{item.nutrition && item.nutrition.calories}}" class="text-sm text-hint mt-10">
+          热量: {{item.nutrition.calories}}kcal
+        </view>
+        <view wx:if="{{item.images && item.images.length > 0}}" class="list-images flex-row mt-10">
+          <image wx:for="{{item.images}}" wx:for-item="img" wx:key="index"
+                 src="{{img}}" mode="aspectFill" class="list-thumb" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view wx:if="{{hasMore}}" class="load-more text-center text-hint" bindtap="loadMore">
+      加载更多...
+    </view>
+    <view wx:if="{{!hasMore && listRecords.length > 0}}" class="text-center text-hint mt-20">
+      — 已全部加载 —
+    </view>
+  </view>
+</view>

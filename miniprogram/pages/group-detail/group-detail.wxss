@@ -1,0 +1,40 @@
+.action-bar > view {
+  text-align: center;
+  padding: 20rpx;
+  border-radius: 14rpx;
+  font-size: 28rpx;
+}
+
+.member-item {
+  padding: 16rpx 0;
+  border-bottom: 2rpx solid var(--bg);
+}
+
+.member-item:last-child {
+  border-bottom: none;
+}
+
+.member-icon {
+  width: 60rpx;
+  height: 60rpx;
+  background: var(--primary-light);
+  border-radius: 50%;
+  font-size: 28rpx;
+  margin-right: 16rpx;
+}
+
+.feed-card {
+  margin-bottom: 16rpx;
+}
+
+.feed-images {
+  display: flex;
+  gap: 10rpx;
+  flex-wrap: wrap;
+}
+
+.feed-image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 10rpx;
+}

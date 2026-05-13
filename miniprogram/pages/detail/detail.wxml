@@ -1,0 +1,62 @@
+<view class="container" wx:if="{{record}}">
+  <!-- 餐次与日期 -->
+  <view class="card flex-between">
+    <view class="flex-row">
+      <text class="meal-icon">{{mealInfo.icon}}</text>
+      <view>
+        <text class="text-lg text-bold">{{mealInfo.label}}</text>
+        <text class="text-sm text-hint ml-20">{{record.date}}</text>
+      </view>
+    </view>
+    <view class="tag {{record.visibility === 'public' ? 'tag-green' : 'tag-orange'}}">
+      {{record.visibility === 'public' ? '公开' : '私密'}}
+    </view>
+  </view>
+
+  <!-- 饮食内容 -->
+  <view class="card" wx:if="{{record.content}}">
+    <view class="form-label">饮食内容</view>
+    <text class="content-text">{{record.content}}</text>
+  </view>
+
+  <!-- 图片展示 -->
+  <view class="card" wx:if="{{record.images && record.images.length > 0}}">
+    <view class="form-label">饮食照片</view>
+    <view class="image-grid">
+      <image wx:for="{{record.images}}" wx:key="index" src="{{item}}" mode="aspectFill"
+             class="detail-image" bindtap="previewImage" data-url="{{item}}" />
+    </view>
+  </view>
+
+  <!-- AI 识别结果 -->
+  <view class="card" wx:if="{{record.aiResult}}">
+    <view class="form-label">AI 识别</view>
+    <text>食物: {{record.aiResult.foodName}}</text>
+    <text class="text-sm text-hint ml-20">置信度: {{record.aiResult.confidence}}%</text>
+  </view>
+
+  <!-- 营养成分 -->
+  <view class="card" wx:if="{{record.nutrition}}">
+    <view class="form-label">营养成分</view>
+    <view class="nutrition-grid">
+      <view wx:for="{{nutritionFields}}" wx:key="key" class="nutrition-item">
+        <text class="nutrition-label">{{item.icon}} {{item.label}}</text>
+        <text class="nutrition-value">{{record.nutrition[item.key] || 0}}{{item.unit}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons flex-row">
+    <view class="btn-outline flex-1 mr-20" bindtap="handleEdit">
+      编辑
+    </view>
+    <view class="btn-primary flex-1" bindtap="handleShare">
+      分享
+    </view>
+  </view>
+</view>
+
+<view wx:else class="empty-state">
+  <text>加载中...</text>
+</view>

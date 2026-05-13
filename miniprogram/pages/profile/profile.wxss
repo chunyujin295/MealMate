@@ -1,0 +1,59 @@
+.user-card {
+  padding: 32rpx 24rpx;
+}
+
+.avatar-wrapper {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+}
+
+.avatar.placeholder {
+  background: var(--primary-light);
+  font-size: 48rpx;
+}
+
+.menu-section {
+  margin-top: 20rpx;
+}
+
+.menu-item {
+  padding: 24rpx 0;
+  border-bottom: 2rpx solid var(--bg);
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+}
+
+.privacy-option {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx;
+  border: 2rpx solid var(--border);
+  border-radius: 10rpx;
+  font-size: 24rpx;
+  margin-right: 16rpx;
+}
+
+.privacy-option:last-child {
+  margin-right: 0;
+}
+
+.privacy-option.active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}

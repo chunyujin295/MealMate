@@ -1,0 +1,25 @@
+{
+  "users": {
+    "read": "auth.openid == doc._openid",
+    "write": "auth.openid == doc._openid"
+  },
+  "food_records": {
+    "read": "auth.openid == doc._openid || doc.visibility != 'private'",
+    "write": "auth.openid == doc._openid",
+    "create": "auth.openid == doc._openid"
+  },
+  "groups": {
+    "read": true,
+    "write": "auth.openid == doc.ownerId"
+  },
+  "group_members": {
+    "read": "auth.openid == doc._openid",
+    "write": "auth.openid == doc._openid",
+    "create": "auth.openid == doc._openid"
+  },
+  "group_interact": {
+    "read": true,
+    "write": "auth.openid == doc._openid",
+    "create": "auth.openid == doc._openid"
+  }
+}

@@ -1,0 +1,8 @@
+<view class="meal-picker">
+  <view wx:for="{{mealTypes}}" wx:key="key"
+        class="meal-option {{value === item.key ? 'selected' : ''}}"
+        bindtap="onSelect" data-key="{{item.key}}">
+    <text class="meal-icon">{{item.icon}}</text>
+    <text class="meal-label">{{item.label}}</text>
+  </view>
+</view>

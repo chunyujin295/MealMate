@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/record/record",
+    "pages/detail/detail",
+    "pages/history/history",
+    "pages/profile/profile",
+    "pages/nutrition/nutrition",
+    "pages/groups/groups",
+    "pages/group-detail/group-detail",
+    "pages/group-create/group-create"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#4CAF50",
+    "navigationBarTitleText": "吃了么",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#4CAF50",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "📝 记录"
+      },
+      {
+        "pagePath": "pages/groups/groups",
+        "text": "👥 群组"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "👤 我的"
+      }
+    ]
+  },
+  "usingComponents": {
+    "record-card": "/components/record-card/record-card",
+    "meal-picker": "/components/meal-picker/meal-picker",
+    "nutrition-summary": "/components/nutrition-summary/nutrition-summary"
+  },
+  "sitemapLocation": "sitemap.json",
+  "cloud": true,
+  "lazyCodeLoading": "requiredComponents"
+}

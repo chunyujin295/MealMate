@@ -1,0 +1,53 @@
+.meal-icon {
+  font-size: 48rpx;
+  margin-right: 16rpx;
+}
+
+.content-text {
+  font-size: 30rpx;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.detail-image {
+  width: 100%;
+  border-radius: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+.nutrition-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.nutrition-item {
+  width: calc(50% - 8rpx);
+  padding: 16rpx;
+  background: var(--bg);
+  border-radius: 10rpx;
+}
+
+.nutrition-label {
+  display: block;
+  font-size: 22rpx;
+  color: var(--text-hint);
+  margin-bottom: 6rpx;
+}
+
+.nutrition-value {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.action-buttons {
+  margin-top: 30rpx;
+}
+
+.action-buttons > view {
+  text-align: center;
+  padding: 24rpx;
+  border-radius: 14rpx;
+  font-size: 30rpx;
+}

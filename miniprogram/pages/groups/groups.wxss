@@ -1,0 +1,7 @@
+.group-card {
+  margin-bottom: 20rpx;
+}
+
+.group-card:active {
+  background: #fafafa;
+}

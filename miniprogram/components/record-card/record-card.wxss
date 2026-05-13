@@ -1,0 +1,26 @@
+.record-card {
+  margin-bottom: 16rpx;
+}
+
+.meal-icon {
+  margin-right: 10rpx;
+}
+
+.card-images {
+  gap: 8rpx;
+}
+
+.card-image {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 8rpx;
+}
+
+.more-images {
+  width: 100rpx;
+  height: 100rpx;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+}

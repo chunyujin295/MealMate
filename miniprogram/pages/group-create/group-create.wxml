@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="card">
+    <view class="form-group">
+      <view class="form-label">群组名称 *</view>
+      <input class="form-input" placeholder="输入群组名称" value="{{name}}" bindinput="onNameInput" maxlength="20" />
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">群组简介</view>
+      <textarea class="form-textarea" placeholder="介绍一下这个群组吧" value="{{description}}"
+                bindinput="onDescInput" maxlength="200" auto-height />
+      <view class="char-count text-hint text-right text-sm">{{description.length}}/200</view>
+    </view>
+
+    <view class="flex-between">
+      <view class="form-label">私密群组</view>
+      <switch checked="{{isPrivate}}" bindchange="onPrivateChange" color="#4CAF50" />
+    </view>
+    <view class="text-sm text-hint mt-10">
+      开启后，仅通过邀请链接可加入群组
+    </view>
+  </view>
+
+  <view class="btn-primary mt-30" bindtap="handleCreate">
+    创建群组
+  </view>
+</view>

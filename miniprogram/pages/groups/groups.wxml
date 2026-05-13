@@ -1,0 +1,33 @@
+<view class="container">
+  <view class="flex-between mb-20">
+    <text class="text-lg text-bold">我的群组</text>
+    <view class="btn-primary btn-small" bindtap="createGroup">
+      + 创建群组
+    </view>
+  </view>
+
+  <view wx:if="{{groups.length === 0}}" class="empty-state">
+    <text class="empty-icon">👥</text>
+    <text class="empty-text">还没有加入任何群组</text>
+    <text class="text-sm text-hint mt-10">创建一个群组来邀请好友一起打卡吧</text>
+    <view class="btn-primary mt-30" bindtap="createGroup">创建第一个群组</view>
+  </view>
+
+  <view wx:for="{{groups}}" wx:key="_id" class="group-card card"
+        bindtap="goToDetail" data-id="{{item._id}}">
+    <view class="flex-between mb-10">
+      <text class="text-lg text-bold">{{item.name}}</text>
+      <text class="text-hint text-sm">{{item.memberCount}}人</text>
+    </view>
+    <view wx:if="{{item.description}}" class="text-sm text-secondary mb-10">
+      {{item.description}}
+    </view>
+    <view class="flex-between text-sm">
+      <text class="text-hint" wx:if="{{item.ownerId === userId}}">👑 群主</text>
+      <text class="text-hint" wx:else>成员</text>
+      <text class="tag {{item.isPrivate ? 'tag-orange' : 'tag-green'}}">
+        {{item.isPrivate ? '私密' : '公开'}}
+      </text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,104 @@
+<view class="container">
+  <!-- 时间范围切换 -->
+  <view class="period-toggle card flex-row">
+    <view class="period-item {{period === 'day' ? 'active' : ''}}" bindtap="switchPeriod" data-period="day">
+      <text>今日</text>
+    </view>
+    <view class="period-item {{period === 'week' ? 'active' : ''}}" bindtap="switchPeriod" data-period="week">
+      <text>本周</text>
+    </view>
+    <view class="period-item {{period === 'month' ? 'active' : ''}}" bindtap="switchPeriod" data-period="month">
+      <text>本月</text>
+    </view>
+  </view>
+
+  <!-- 总热量 -->
+  <view class="card stats-main">
+    <text class="stats-label">总热量摄入</text>
+    <view class="calories-display flex-center">
+      <text class="calories-big">{{summary.totalCalories || 0}}</text>
+      <text class="calories-unit">kcal</text>
+    </view>
+    <text class="stats-sub text-hint">{{periodLabel}}共记录 {{summary.count}} 餐</text>
+  </view>
+
+  <!-- 三大宏量营养素 -->
+  <view class="card">
+    <view class="form-label mb-20">宏量营养素</view>
+    <view class="macro-bars">
+      <view class="macro-bar-row mb-20">
+        <view class="flex-between mb-10">
+          <view class="flex-row">
+            <text class="macro-dot carbs"></text>
+            <text>碳水化合物</text>
+          </view>
+          <text class="text-bold">{{summary.totalCarbs || 0}}g</text>
+        </view>
+        <view class="bar-track">
+          <view class="bar-fill carbs" style="width: {{carbsPercent}}%"></view>
+        </view>
+      </view>
+
+      <view class="macro-bar-row mb-20">
+        <view class="flex-between mb-10">
+          <view class="flex-row">
+            <text class="macro-dot protein"></text>
+            <text>蛋白质</text>
+          </view>
+          <text class="text-bold">{{summary.totalProtein || 0}}g</text>
+        </view>
+        <view class="bar-track">
+          <view class="bar-fill protein" style="width: {{proteinPercent}}%"></view>
+        </view>
+      </view>
+
+      <view class="macro-bar-row">
+        <view class="flex-between mb-10">
+          <view class="flex-row">
+            <text class="macro-dot fat"></text>
+            <text>脂肪</text>
+          </view>
+          <text class="text-bold">{{summary.totalFat || 0}}g</text>
+        </view>
+        <view class="bar-track">
+          <view class="bar-fill fat" style="width: {{fatPercent}}%"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 详细营养素 -->
+  <view class="card">
+    <view class="form-label mb-20">详细营养素</view>
+    <view class="detail-grid">
+      <view class="detail-item">
+        <text class="detail-label">膳食纤维</text>
+        <text class="detail-value">{{summary.totalFiber || 0}}g</text>
+      </view>
+      <view class="detail-item">
+        <text class="detail-label">钠</text>
+        <text class="detail-value">{{summary.totalSodium || 0}}mg</text>
+      </view>
+      <view class="detail-item">
+        <text class="detail-label">碳水占比</text>
+        <text class="detail-value">{{macroRatio.carbs}}%</text>
+      </view>
+      <view class="detail-item">
+        <text class="detail-label">蛋白占比</text>
+        <text class="detail-value">{{macroRatio.protein}}%</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 每日热量趋势 -->
+  <view class="card" wx:if="{{dailyData.length > 0}}">
+    <view class="form-label mb-20">每日热量趋势</view>
+    <view class="daily-list">
+      <view wx:for="{{dailyData}}" wx:key="date" class="daily-row flex-between">
+        <text class="text-sm">{{item.date}}</text>
+        <text class="text-bold">{{item.calories}} kcal</text>
+        <text class="text-sm text-hint">{{item.count}}餐</text>
+      </view>
+    </view>
+  </view>
+</view>

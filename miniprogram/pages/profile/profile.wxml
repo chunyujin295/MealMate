@@ -1,0 +1,66 @@
+<view class="container">
+  <!-- 用户信息区域 -->
+  <view class="user-card card flex-row">
+    <view class="avatar-wrapper" bindtap="updateAvatar">
+      <image wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}" class="avatar" mode="aspectFill" />
+      <view wx:else class="avatar placeholder flex-center">
+        <text>👤</text>
+      </view>
+    </view>
+    <view class="flex-1 ml-20">
+      <view class="flex-between">
+        <text class="text-lg text-bold">{{userInfo.nickName || '未设置昵称'}}</text>
+        <text class="text-sm text-hint" bindtap="editProfile">编辑</text>
+      </view>
+      <view class="text-sm text-hint mt-10">
+        <text>{{userInfo.createdAt ? '加入于 ' + formatCreateTime(userInfo.createdAt) : ''}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能入口 -->
+  <view class="menu-section card">
+    <view class="menu-item flex-between" bindtap="goToNutrition">
+      <view class="flex-row">
+        <text class="menu-icon">📊</text>
+        <text>营养统计</text>
+      </view>
+      <text class="text-hint">›</text>
+    </view>
+    <view class="menu-item flex-between" bindtap="goToHistory">
+      <view class="flex-row">
+        <text class="menu-icon">📅</text>
+        <text>历史记录</text>
+      </view>
+      <text class="text-hint">›</text>
+    </view>
+    <view class="menu-item flex-between" bindtap="goToGroups">
+      <view class="flex-row">
+        <text class="menu-icon">👥</text>
+        <text>我的群组</text>
+      </view>
+      <text class="text-hint">›</text>
+    </view>
+  </view>
+
+  <!-- 隐私设置 -->
+  <view class="menu-section card">
+    <view class="form-label mb-20">默认隐私设置</view>
+    <view class="flex-row">
+      <view class="privacy-option {{userInfo.privacy === 'private' ? 'active' : ''}}"
+            bindtap="setPrivacy" data-value="private">
+        <text>新记录默认私密</text>
+      </view>
+      <view class="privacy-option {{userInfo.privacy === 'public' ? 'active' : ''}}"
+            bindtap="setPrivacy" data-value="public">
+        <text>新记录默认公开</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="menu-section card">
+    <text class="text-hint text-sm">吃了么 v1.0.0</text>
+    <text class="text-hint text-sm mt-10">微信云开发全栈方案</text>
+  </view>
+</view>

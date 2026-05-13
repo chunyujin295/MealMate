@@ -1,0 +1,25 @@
+<view class="nutrition-summary card" wx:if="{{!isEmpty}}">
+  <view class="calories-row flex-center">
+    <text class="calories-num">{{summary.totalCalories || 0}}</text>
+    <text class="calories-unit"> kcal</text>
+  </view>
+
+  <view class="macro-row flex-between">
+    <view class="macro-item">
+      <text class="macro-value">{{summary.totalCarbs || 0}}g</text>
+      <text class="macro-label">碳水</text>
+    </view>
+    <view class="macro-item">
+      <text class="macro-value">{{summary.totalProtein || 0}}g</text>
+      <text class="macro-label">蛋白质</text>
+    </view>
+    <view class="macro-item">
+      <text class="macro-value">{{summary.totalFat || 0}}g</text>
+      <text class="macro-label">脂肪</text>
+    </view>
+  </view>
+
+  <view class="text-center text-sm text-hint">
+    {{label}}共 {{summary.count}} 餐
+  </view>
+</view>

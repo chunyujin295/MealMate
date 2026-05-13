@@ -1,0 +1,67 @@
+<view class="container">
+  <!-- 群组信息 -->
+  <view class="card">
+    <view class="flex-between mb-20">
+      <text class="text-lg text-bold">{{group.name}}</text>
+      <text class="tag {{group.isPrivate ? 'tag-orange' : 'tag-green'}}">
+        {{group.isPrivate ? '私密' : '公开'}}
+      </text>
+    </view>
+    <text wx:if="{{group.description}}" class="text-secondary text-sm">{{group.description}}</text>
+    <view class="flex-between mt-20 text-sm text-hint">
+      <text>{{members.length}} 名成员</text>
+      <text wx:if="{{isAdmin}}">👑 你是群主</text>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-bar flex-row mb-20">
+    <view class="btn-primary flex-1 mr-20" bindtap="inviteMembers">
+      📤 邀请好友
+    </view>
+    <view wx:if="{{!isAdmin}}" class="btn-outline flex-1" bindtap="handleLeave">
+      退出群组
+    </view>
+  </view>
+
+  <!-- 成员列表 -->
+  <view class="card mb-20">
+    <view class="form-label mb-20">群成员 ({{members.length}})</view>
+    <view wx:for="{{members}}" wx:key="_id" class="member-item flex-between">
+      <view class="flex-row">
+        <view class="member-icon flex-center">
+          <text>🧑</text>
+        </view>
+        <text class="text-sm text-hint">{{item._openid.substring(0, 8)}}...</text>
+        <text wx:if="{{item.isAdmin}}" class="text-sm text-hint ml-10">👑</text>
+      </view>
+      <view wx:if="{{isAdmin && !item.isAdmin}}" class="btn-small btn-danger"
+            bindtap="removeMember" data-id="{{item._openid}}">
+        移除
+      </view>
+    </view>
+  </view>
+
+  <!-- 群组动态流 -->
+  <view class="form-label mb-20">群组动态</view>
+
+  <view wx:if="{{feed.length === 0}}" class="empty-state">
+    <text class="text-hint">暂无动态</text>
+  </view>
+
+  <view wx:for="{{feed}}" wx:key="_id" class="feed-card card"
+        bindtap="goToRecord" data-id="{{item._id}}">
+    <view class="flex-between mb-10 text-sm">
+      <text class="text-hint">{{item._openid.substring(0, 8)}}...</text>
+      <text class="text-hint">{{item.date}}</text>
+    </view>
+    <view wx:if="{{item.images && item.images.length > 0}}" class="feed-images mb-10">
+      <image wx:for="{{item.images}}" wx:for-item="img" wx:key="index"
+             src="{{img}}" mode="aspectFill" class="feed-image" />
+    </view>
+    <text>{{item.content || '（无备注）'}}</text>
+    <view wx:if="{{item.nutrition && item.nutrition.calories}}" class="text-sm text-hint mt-10">
+      🔥 {{item.nutrition.calories}}kcal
+    </view>
+  </view>
+</view>

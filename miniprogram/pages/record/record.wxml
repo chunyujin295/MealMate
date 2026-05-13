@@ -1,0 +1,129 @@
+<view class="container">
+  <!-- 餐次选择 -->
+  <view class="card">
+    <view class="form-label">餐次类型</view>
+    <meal-picker value="{{mealType}}" bind:change="onMealChange" />
+  </view>
+
+  <!-- 日期选择 -->
+  <view class="card">
+    <view class="form-label">记录日期</view>
+    <picker mode="date" value="{{recordDate}}" bindchange="onDateChange">
+      <view class="date-picker">
+        <text>{{recordDate}}</text>
+        <text class="text-hint ml-20">›</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 文字备注 -->
+  <view class="card">
+    <view class="form-label">饮食内容</view>
+    <textarea
+      class="form-textarea"
+      placeholder="写下吃了什么吧（如：一碗米饭+番茄炒蛋）"
+      value="{{content}}"
+      bindinput="onContentInput"
+      maxlength="500"
+      auto-height
+    />
+    <view class="char-count text-hint text-right">{{content.length}}/500</view>
+  </view>
+
+  <!-- 图片上传 -->
+  <view class="card">
+    <view class="form-label">拍照记录（{{images.length}}/9）</view>
+    <view class="image-grid">
+      <view wx:for="{{images}}" wx:key="index" class="image-item">
+        <image src="{{item}}" mode="aspectFill" />
+        <view class="image-remove" bindtap="removeImage" data-index="{{index}}">✕</view>
+      </view>
+      <view wx:if="{{images.length < 9}}" class="image-add" bindtap="addImage">
+        <text class="add-icon">+</text>
+        <text class="add-text">添加图片</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- AI 识别按钮 -->
+  <view wx:if="{{images.length > 0 && !aiRecognized}}" class="card">
+    <view class="ai-btn btn-primary flex-center" bindtap="startAIRecognition">
+      <text>🤖 AI 识别食物</text>
+    </view>
+    <view class="ai-hint text-hint text-center mt-10">
+      上传图片后可使用AI自动识别菜品和营养成分
+    </view>
+  </view>
+
+  <!-- AI 识别结果 -->
+  <view wx:if="{{aiResults.length > 0}}" class="card">
+    <view class="flex-between mb-20">
+      <text class="form-label">AI 识别结果</text>
+      <view class="btn-small btn-outline" bindtap="clearAIResults">清除</view>
+    </view>
+    <view wx:for="{{aiResults}}" wx:key="index" class="ai-result-item" bindtap="applyAIResult" data-index="{{index}}">
+      <view class="flex-between">
+        <text class="text-bold">{{item.name}}</text>
+        <text class="text-sm text-hint">置信度 {{item.confidence}}%</text>
+      </view>
+      <view class="ai-nutri-preview flex-row mt-10">
+        <text class="text-sm text-secondary">热量: {{item.nutrition.calories}}kcal</text>
+        <text class="text-sm text-secondary ml-20">蛋白: {{item.nutrition.protein}}g</text>
+        <text class="text-sm text-secondary ml-20">碳水: {{item.nutrition.carbs}}g</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 营养数据录入 -->
+  <view class="card">
+    <view class="flex-between mb-20">
+      <text class="form-label">营养成分</text>
+      <text wx:if="{{nutritionModified}}" class="text-sm text-hint">手动已修改</text>
+    </view>
+    <view class="nutrition-grid">
+      <view wx:for="{{nutritionFields}}" wx:key="key" class="nutrition-field">
+        <view class="nutrition-field-label">
+          <text>{{item.icon}} {{item.label}}</text>
+        </view>
+        <view class="nutrition-input-row flex-row">
+          <input
+            type="digit"
+            class="nutrition-input"
+            value="{{nutrition[item.key]}}"
+            bindinput="onNutritionInput"
+            data-key="{{item.key}}"
+            placeholder="0"
+          />
+          <text class="nutrition-unit">{{item.unit}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 可见权限 -->
+  <view class="card">
+    <view class="form-label">可见权限</view>
+    <view class="visibility-options flex-row">
+      <view class="visibility-option {{visibility === 'private' ? 'active' : ''}}"
+            bindtap="setVisibility" data-value="private">
+        <text>🔒 仅自己</text>
+      </view>
+      <view class="visibility-option {{visibility === 'public' ? 'active' : ''}}"
+            bindtap="setVisibility" data-value="public">
+        <text>🌐 群组可见</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons flex-row">
+    <view wx:if="{{isEditing}}" class="btn-danger flex-1 mr-20" bindtap="handleDelete">
+      删除记录
+    </view>
+    <view class="btn-primary flex-1" bindtap="handleSave">
+      {{isEditing ? '保存修改' : '保存记录'}}
+    </view>
+  </view>
+
+  <view style="height: 60rpx;"></view>
+</view>

@@ -1,0 +1,121 @@
+.period-toggle {
+  padding: 12rpx;
+}
+
+.period-item {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx;
+  border-radius: 10rpx;
+  font-size: 26rpx;
+  color: var(--text-secondary);
+}
+
+.period-item.active {
+  background: var(--primary);
+  color: white;
+}
+
+.stats-main {
+  text-align: center;
+  padding: 32rpx;
+}
+
+.stats-label {
+  font-size: 26rpx;
+  color: var(--text-hint);
+}
+
+.calories-display {
+  margin: 16rpx 0;
+}
+
+.calories-big {
+  font-size: 72rpx;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.calories-unit {
+  font-size: 32rpx;
+  color: var(--text-secondary);
+  margin-left: 8rpx;
+  align-self: flex-end;
+  padding-bottom: 10rpx;
+}
+
+.stats-sub {
+  font-size: 24rpx;
+}
+
+/* 宏量营养素进度条 */
+.macro-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  margin-right: 12rpx;
+  align-self: center;
+}
+
+.macro-dot.carbs { background: #FF9800; }
+.macro-dot.protein { background: #2196F3; }
+.macro-dot.fat { background: #f44336; }
+
+.bar-track {
+  width: 100%;
+  height: 16rpx;
+  background: var(--border);
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 8rpx;
+  transition: width 0.5s ease;
+}
+
+.bar-fill.carbs { background: #FF9800; }
+.bar-fill.protein { background: #2196F3; }
+.bar-fill.fat { background: #f44336; }
+
+/* 详细营养素 */
+.detail-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.detail-item {
+  width: calc(50% - 8rpx);
+  padding: 20rpx;
+  background: var(--bg);
+  border-radius: 12rpx;
+}
+
+.detail-label {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-hint);
+  margin-bottom: 8rpx;
+}
+
+.detail-value {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+/* 每日趋势 */
+.daily-list {
+  max-height: 500rpx;
+  overflow-y: auto;
+}
+
+.daily-row {
+  padding: 16rpx 0;
+  border-bottom: 2rpx solid var(--bg);
+}
+
+.daily-row:last-child {
+  border-bottom: none;
+}
