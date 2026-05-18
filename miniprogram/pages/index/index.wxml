@@ -88,8 +88,4 @@
     </view>
   </view>
 
-  <!-- FAB 快速添加 -->
-  <view class="fab" bindtap="addRecord" data-meal="">
-    <text>+</text>
-  </view>
 </view>

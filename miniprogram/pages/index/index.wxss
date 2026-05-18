@@ -173,28 +173,6 @@
   margin-left: 10rpx;
 }
 
-/* FAB */
-.fab {
-  position: fixed;
-  bottom: 120rpx;
-  right: 40rpx;
-  width: 100rpx;
-  height: 100rpx;
-  background: var(--primary);
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 48rpx;
-  box-shadow: 0 4rpx 20rpx rgba(76, 175, 80, 0.4);
-  z-index: 100;
-}
-
-.fab:active {
-  background: var(--primary-dark);
-}
-
 .empty-icon {
   font-size: 80rpx;
   margin-bottom: 16rpx;

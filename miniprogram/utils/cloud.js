@@ -68,7 +68,7 @@ async function fetchGroupDetail(groupId) {
 }
 
 async function createGroup(data) {
-  return callFunction('groups', { action: 'create', data });
+  return callFunction('groups', { action: 'create', ...data });
 }
 
 async function joinGroup(groupId) {

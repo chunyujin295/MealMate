@@ -1,4 +1,6 @@
 const cloud = require('wx-server-sdk');
+const https = require('https');
+
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 
 const BAIDU_API_KEY = process.env.BAIDU_API_KEY || '';
@@ -6,7 +8,6 @@ const BAIDU_SECRET_KEY = process.env.BAIDU_SECRET_KEY || '';
 const BAIDU_TOKEN_URL = 'https://aip.baidubce.com/oauth/2.0/token';
 const BAIDU_DISH_URL = 'https://aip.baidubce.com/rest/2.0/image-classify/v2/dish';
 
-// 内置简易食物营养数据（每100g）
 const FOOD_NUTRITION_DB = {
   '米饭': { calories: 116, carbs: 25.9, protein: 2.6, fat: 0.3, fiber: 0.3, sodium: 2 },
   '面条': { calories: 110, carbs: 24.3, protein: 4.2, fat: 0.6, fiber: 0.7, sodium: 3 },
@@ -37,8 +38,32 @@ function matchNutrition(foodName) {
   for (const [key, value] of Object.entries(FOOD_NUTRITION_DB)) {
     if (foodName.includes(key)) return value;
   }
-  // 默认返回估算值
   return { calories: 150, carbs: 15, protein: 8, fat: 6, fiber: 1, sodium: 100 };
+}
+
+function httpRequest(url, options = {}) {
+  return new Promise((resolve, reject) => {
+    const urlObj = new URL(url);
+    const req = https.request({
+      hostname: urlObj.hostname,
+      path: urlObj.pathname + urlObj.search,
+      method: options.method || 'GET',
+      headers: options.headers || {}
+    }, (res) => {
+      let body = '';
+      res.on('data', chunk => body += chunk);
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(body));
+        } catch {
+          resolve(body);
+        }
+      });
+    });
+    req.on('error', reject);
+    if (options.data) req.write(options.data);
+    req.end();
+  });
 }
 
 let cachedToken = { access_token: '', expiresAt: 0 };
@@ -52,9 +77,9 @@ async function getBaiduToken() {
     throw new Error('百度API密钥未配置，请在云函数环境变量中设置 BAIDU_API_KEY 和 BAIDU_SECRET_KEY');
   }
 
-  const resp = await cloud.fetchURL(`${BAIDU_TOKEN_URL}?grant_type=client_credentials&client_id=${BAIDU_API_KEY}&client_secret=${BAIDU_SECRET_KEY}`);
-
-  const data = typeof resp.data === 'string' ? JSON.parse(resp.data) : resp.data;
+  const data = await httpRequest(
+    `${BAIDU_TOKEN_URL}?grant_type=client_credentials&client_id=${BAIDU_API_KEY}&client_secret=${BAIDU_SECRET_KEY}`
+  );
 
   if (data.error) {
     throw new Error(`获取百度token失败: ${data.error_description || data.error}`);
@@ -70,13 +95,11 @@ async function getBaiduToken() {
 
 async function recognizeDish(imageBase64) {
   const token = await getBaiduToken();
-  const resp = await cloud.fetchURL(`${BAIDU_DISH_URL}?access_token=${token}`, {
+  const data = await httpRequest(`${BAIDU_DISH_URL}?access_token=${token}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     data: `image=${encodeURIComponent(imageBase64)}&top_num=3`
   });
-
-  const data = typeof resp.data === 'string' ? JSON.parse(resp.data) : resp.data;
 
   if (data.error_code) {
     throw new Error(`百度识别失败: ${data.error_msg}`);
@@ -100,7 +123,6 @@ exports.main = async (event) => {
     case 'recognize': {
       let imageData = imageBase64;
 
-      // 如果传入的是 cloudID 或 fileID，先下载
       if (!imageData && imageUrl) {
         const { fileContent } = await cloud.downloadFile({ fileID: imageUrl });
         imageData = Buffer.from(fileContent).toString('base64');
